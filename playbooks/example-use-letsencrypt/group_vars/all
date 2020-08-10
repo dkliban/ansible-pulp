@@ -1,0 +1,23 @@
+---
+pulp_webserver_httpd_servername: "{{ inventory_hostname }}"
+lets_encrypt_hostname: "{{ inventory_hostname }}"
+lets_encrypt_directories_certs: "/etc/letsencrypt"
+lets_encrypt_directories_data: "/var/lib/pulp/pulpcore_static"
+
+pulp_default_admin_password: password
+pulp_install_plugins:
+  # galaxy-ng: {}
+  # pulp-ansible: {}
+  # pulp-certguard: {}
+  # pulp-container: {}
+  # pulp-cookbook: {}
+  # pulp-deb: {}
+  pulp-file: {}
+  # pulp-gem: {}
+  # pulp-maven: {}
+  # pulp-npm: {}
+  # pulp-python: {}
+  # pulp-rpm: {}
+pulp_settings:
+  secret_key: secret
+  content_origin: "https://{{ inventory_hostname }}"
