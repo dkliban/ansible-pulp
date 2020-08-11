@@ -76,6 +76,38 @@
     - "{{ pulp_webserver_static_dir }}"
     - "{{ pulp_webserver_static_dir }}/.well-known"
 
+- name: Create TLS 'certs' directory
+  file:
+    path: "{{ pulp_webserver_static_dir }}/certs"
+    state: directory
+    mode: 0755
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  become: true
+
+- name: Create a symbolic link for the webserver's root CA certificate
+  file:
+    src: "{{ pulp_webserver_tls_folder }}/root.crt"
+    dest: "{{ pulp_webserver_static_dir }}/certs/root.crt"
+    state: link
+    mode: 0755
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  when:
+    - pulp_webserver_tls_cert is undefined
+    - pulp_webserver_tls_key is undefined
+  become: true
+
+- name: Create a symbolic link for the webserver's TLS certificate
+  file:
+    src: "{{ pulp_webserver_tls_folder }}/pulp_webserver.crt"
+    dest: "{{ pulp_webserver_static_dir }}/certs/webserver.crt"
+    state: link
+    mode: 0755
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  become: true
+
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 
 - block:

@@ -116,6 +116,12 @@ http {
             try_files $uri $uri/ =404;
         }
 
+        # Webserver's TLS certificates so clients can download and import
+        location /certs/ {
+            disable_symlinks off ;
+            try_files $uri $uri/ =404;
+        }
+
     }
 
 {% if not pulp_webserver_disable_https | bool %}
