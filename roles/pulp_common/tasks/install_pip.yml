@@ -194,14 +194,13 @@
 
     - name: Install pulpcore via PyPI
       pip:
-        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}"
+        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}~={{ pulpcore_minor_release }}.0"
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
         # Commented out because:
         # "version is incompatible with state=latest"
+        state: '{{ (pulpcore_update == true) | ternary("forcereinstall", "present") }}'
         # But we still need to handle upgrading dependencies.
-        # state: "{{ pulp_upgrade | ternary('latest','present') }}"
-        version: '{{ __pulp_version }}'
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined

@@ -83,8 +83,8 @@
       package:
         name: >-
           {{ pulp_pkg_pulpcore_name }}
-          {% if pulpcore_version | default('') | length -%}
-          = {{ pulpcore_version }}
+          {% if pulpcore_minor_release | default('') | length -%}
+          = {{ pulpcore_minor_release }}
           {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       notify:
